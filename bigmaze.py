@@ -18,7 +18,7 @@ end = (1,height-1)
 
 
 queue = queue.Queue()
-
+counter = 0
 
 done = []
 
@@ -46,7 +46,8 @@ def isValid(current):
 
     # in yossi's orginal picture the touple length for the colors is 4 and phtoshop' s is 3 
     #so i re-exported it in photoshop 
-    
+    #if px[current] != (0,0,0):
+        #print(px[current])
     return px[current] != (0,0,0)
     
     
@@ -58,8 +59,8 @@ def getNext(current , dirr):
 
 win = False
 def isWin(current):
-    y = current[0] 
-    x = current[1] 
+    # y = current[0] 
+    # x = current[1] 
 
     
     #if (px[current] == (0,255,0)):
@@ -68,7 +69,6 @@ def isWin(current):
 
     return current == end
 
-    return False
 
 
 
@@ -85,10 +85,10 @@ bfsPaths = {}
 
 
 
-
+print("starting now")
 while (not queue.empty()and not win):
     current = queue.get(0)
-    
+    counter +=1
 
     if(isWin(current)):
         total = round(time.time() - startTime, 3)
@@ -107,7 +107,7 @@ while (not queue.empty()and not win):
 
     for dirr in directions: 
         next = getNext(current, dirr)
-        if(isValid(next) and next not in done):
+        if(isValid(next) and not (next in done)):
             done.append(next)
             queue.put(next)
             bfsPaths[next] = current 
@@ -143,6 +143,7 @@ if(win):
         solution.putpixel(cell, rgb_to_int_tuple(rgb)) 
         cell = bfsPaths[cell]
 
-
+print(str(len(done)) + " : pixels explored")
+print(str(counter) + " / " + str(640*640+2)+" squared discovered")
 solution.save("mazesolution.png")
 solution.show()
