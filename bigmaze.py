@@ -3,7 +3,6 @@ import os, time, queue, sys
 from PIL import Image#, ImageDraw    
 import colorsys
 
-
 startTime = time.time()
 with Image.open(sys.argv[1]) as im:
     width, height = im.size
@@ -20,7 +19,8 @@ end = (1,height-1)
 queue = queue.Queue()
 counter = 0
 
-done = []
+done = set()
+
 
 
 
@@ -107,8 +107,8 @@ while (not queue.empty()and not win):
 
     for dirr in directions: 
         next = getNext(current, dirr)
-        if(isValid(next) and not (next in done)):
-            done.append(next)
+        if isValid(next) and next not in done:
+            done.add(next)
             queue.put(next)
             bfsPaths[next] = current 
  
