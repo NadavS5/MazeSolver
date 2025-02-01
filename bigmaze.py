@@ -1,6 +1,5 @@
 import os, time, queue, sys
-#from colorama import Fore
-from PIL import Image#, ImageDraw    
+from PIL import Image
 import colorsys
 
 startTime = time.time()
@@ -41,13 +40,11 @@ def isValid(current):
         return False
 
 
-    #if(px[current] == (0,0,0)):
-    #   print(str(current) + str(px[current])) 
+    
 
     # in yossi's orginal picture the touple length for the colors is 4 and phtoshop' s is 3 
     #so i re-exported it in photoshop 
-    #if px[current] != (0,0,0):
-        #print(px[current])
+    #return px[current] != (0,0,0,0)
     return px[current] != (0,0,0)
     
     
@@ -58,14 +55,11 @@ def getNext(current , dirr):
     return (current[0] + dirr[0], current[1] + dirr[1])
 
 win = False
-def isWin(current):
-    # y = current[0] 
-    # x = current[1] 
 
+
+def isWin(current):
     
-    #if (px[current] == (0,255,0)):
-      #  
-       # return True
+    #return px[current] == (0,255,0)
 
     return current == end
 
@@ -77,12 +71,10 @@ def isWin(current):
 
 
 
-queue.put(start)
+queue.put(start) #starting point for the bfs
 current = start
 
-bfsPaths = {} 
-
-
+bfsPaths = {}  #this is for backtracking the solution
 
 
 print("starting now")
@@ -97,12 +89,6 @@ while (not queue.empty()and not win):
         end = current
         win = True
         break
-   
-    #array[current[0]][current[1]] = 3 #show what exploreds
-    
-
-    #array[current[0]][current[1]] = 3
-    
    
 
     for dirr in directions: 
@@ -144,6 +130,6 @@ if(win):
         cell = bfsPaths[cell]
 
 print(str(len(done)) + " : pixels explored")
-print(str(counter) + " / " + str(640*640+2)+" squared discovered")
+print(str(counter) + " / " + str(width*height)+" squared discovered")
 solution.save("mazesolution.png")
 solution.show()
